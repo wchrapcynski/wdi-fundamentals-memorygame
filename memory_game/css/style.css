@@ -67,6 +67,15 @@ a:hover {
   font-weight: 700;
 }
 
+#notification {
+  background-color: red;
+  color: white;
+}
+
+#score {
+  color: red;
+}
+
 footer {
   text-transform: uppercase;
   padding: 0 20px;

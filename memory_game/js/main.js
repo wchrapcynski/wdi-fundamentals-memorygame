@@ -1,3 +1,4 @@
+var score = 0;
 var cards = [
   {
     rank: "queen",
@@ -21,24 +22,58 @@ var cards = [
   },
 ];
 var cardsInPlay = [];
+var notification = document.getElementById('notification');
+var board = document.getElementById('game-board');
 
 function checkForMatch() {
   if(cardsInPlay[0] === cardsInPlay[1]) {
-    alert("You found a match!");
+    notification.innerText = "You found a match!"
+    score += 1;
+    var scoreDisplay = document.getElementById('score');
+    scoreDisplay.innerText = score;
   } else {
-    alert("Sorry, try again.");
+    notification.innerText = "Sorry. Try again."
   }
 }
 
-function flipCard(cardId) {
+function flipCard() {
+  cardId = this.getAttribute('data-id');
   console.log("User flipped " + cards[cardId].rank);
   console.log(cards[cardId].cardImage)
   console.log(cards[cardId].suit)
   cardsInPlay.push(cards[cardId].rank);
+  this.setAttribute('src', cards[cardId].cardImage);
   if(cardsInPlay.length === 2) {
     checkForMatch();
   }
 }
 
-flipCard(0);
-flipCard(2);
+function createBoard() {
+  for (var i = 0; i < cards.length; i++) {
+    var cardElement = document.createElement('img');
+    cardElement.setAttribute('src','images/back.png');
+    cardElement.setAttribute('data-id', i);
+    cardElement.addEventListener('click', flipCard);
+    board.appendChild(cardElement);
+  }
+}
+
+createBoard();
+
+var resetButton = document.getElementsByTagName('button')[0];
+resetButton.addEventListener('click', reset);
+
+function reset() {
+  if(cardsInPlay.length === 2) {
+    board.innerHTML = "";
+    notification.innerText = "Pick two cards."
+    while(cardsInPlay.length > 0) {
+      cardsInPlay.pop();
+    }
+    createBoard();
+    } else if (cardsInPlay.length === 1) {
+    notification.innerText = "You need to pick another card.";
+    } else {
+    notification.innerText = "The game is already reset. Pick two cards.";
+  }
+}
