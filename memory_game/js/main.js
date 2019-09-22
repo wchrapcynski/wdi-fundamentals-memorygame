@@ -37,12 +37,15 @@ function checkForMatch() {
 }
 
 function flipCard() {
-  cardId = this.getAttribute('data-id');
-  console.log("User flipped " + cards[cardId].rank);
-  console.log(cards[cardId].cardImage)
-  console.log(cards[cardId].suit)
-  cardsInPlay.push(cards[cardId].rank);
-  this.setAttribute('src', cards[cardId].cardImage);
+  if(cardsInPlay.length < 2) {
+    cardId = this.getAttribute('data-id');
+    console.log("User flipped " + cards[cardId].rank);
+    console.log(cards[cardId].cardImage)
+    console.log(cards[cardId].suit)
+    cardsInPlay.push(cards[cardId].rank);
+    this.setAttribute('src', cards[cardId].cardImage);
+    this.removeEventListener('click', flipCard);
+  }
   if(cardsInPlay.length === 2) {
     checkForMatch();
   }
@@ -64,7 +67,7 @@ var resetButton = document.getElementsByTagName('button')[0];
 resetButton.addEventListener('click', reset);
 
 function reset() {
-  if(cardsInPlay.length === 2) {
+  if(cardsInPlay.length >= 2) {
     board.innerHTML = "";
     notification.innerText = "Pick two cards."
     while(cardsInPlay.length > 0) {
