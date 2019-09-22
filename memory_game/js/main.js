@@ -61,6 +61,7 @@ function createBoard() {
   }
 }
 
+cards = shuffle(cards);
 createBoard();
 
 var resetButton = document.getElementsByTagName('button')[0];
@@ -73,10 +74,23 @@ function reset() {
     while(cardsInPlay.length > 0) {
       cardsInPlay.pop();
     }
+    cards = shuffle(cards);
     createBoard();
     } else if (cardsInPlay.length === 1) {
     notification.innerText = "You need to pick another card.";
     } else {
     notification.innerText = "The game is already reset. Pick two cards.";
   }
+}
+
+function shuffle(array) {
+    var counter = array.length;
+    while (counter > 0) {
+        let index = Math.floor(Math.random() * counter);
+        counter--;
+        var temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+    return array;
 }
