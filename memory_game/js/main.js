@@ -24,15 +24,18 @@ var cards = [
 var cardsInPlay = [];
 var notification = document.getElementById('notification');
 var board = document.getElementById('game-board');
+var gameOver = false;
 
 function checkForMatch() {
-  if(cardsInPlay[0] === cardsInPlay[1]) {
+  if(cardsInPlay[0] === cardsInPlay[1] && gameOver === false) {
     notification.innerText = "You found a match!"
     score += 1;
     var scoreDisplay = document.getElementById('score');
     scoreDisplay.innerText = score;
-  } else {
+    gameOver = true;
+  } else if (cardsInPlay[0] !== cardsInPlay[1] && gameOver === false) {
     notification.innerText = "Sorry. Try again."
+    gameOver = true;
   }
 }
 
@@ -44,7 +47,6 @@ function flipCard() {
     console.log(cards[cardId].suit)
     cardsInPlay.push(cards[cardId].rank);
     this.setAttribute('src', cards[cardId].cardImage);
-    this.removeEventListener('click', flipCard);
   }
   if(cardsInPlay.length === 2) {
     checkForMatch();
@@ -75,6 +77,7 @@ function reset() {
       cardsInPlay.pop();
     }
     cards = shuffle(cards);
+    gameOver = false;
     createBoard();
     } else if (cardsInPlay.length === 1) {
     notification.innerText = "You need to pick another card.";
