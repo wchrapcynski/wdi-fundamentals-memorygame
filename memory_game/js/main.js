@@ -86,6 +86,7 @@ function reset() {
   }
 }
 
+// Fisher-Yates Shuffle 
 function shuffle(array) {
     var counter = array.length;
     while (counter > 0) {
