@@ -3,22 +3,26 @@ var cards = [
   {
     rank: "queen",
     suit: "hearts",
-    cardImage: "images/queen-of-hearts.png"
+    cardImage: "images/queen-of-hearts.png",
+    flipped: false
   },
   {
     rank: "queen",
     suit: "diamond",
-    cardImage: "images/queen-of-diamonds.png"
+    cardImage: "images/queen-of-diamonds.png",
+    flipped: false
   },
   {
     rank: "king",
     suit: "hearts",
-    cardImage: "images/king-of-hearts.png"
+    cardImage: "images/king-of-hearts.png",
+    flipped: false
   },
   {
     rank: "king",
     suit: "diamond",
-    cardImage: "images/king-of-diamonds.png"
+    cardImage: "images/king-of-diamonds.png",
+    flipped: false
   },
 ];
 var cardsInPlay = [];
@@ -42,11 +46,14 @@ function checkForMatch() {
 function flipCard() {
   if(cardsInPlay.length < 2) {
     cardId = this.getAttribute('data-id');
-    console.log("User flipped " + cards[cardId].rank);
-    console.log(cards[cardId].cardImage)
-    console.log(cards[cardId].suit)
-    cardsInPlay.push(cards[cardId].rank);
-    this.setAttribute('src', cards[cardId].cardImage);
+    if(cards[cardId].flipped === false) {
+        cards[cardId].flipped = true;
+        console.log("User flipped " + cards[cardId].rank);
+        console.log(cards[cardId].cardImage)
+        console.log(cards[cardId].suit)
+        cardsInPlay.push(cards[cardId].rank);
+        this.setAttribute('src', cards[cardId].cardImage);
+    }
   }
   if(cardsInPlay.length === 2) {
     checkForMatch();
@@ -74,7 +81,10 @@ function reset() {
     board.innerHTML = "";
     notification.innerText = "Pick two cards."
     while(cardsInPlay.length > 0) {
-      cardsInPlay.pop();
+        cardsInPlay.pop();
+    }
+    for(var i = 0; i < 4; i++) {
+        cards[i].flipped = false;
     }
     cards = shuffle(cards);
     gameOver = false;
